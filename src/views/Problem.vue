@@ -14,7 +14,7 @@
           </ul>
         </div>
         <div class="rowWrapper" v-for="(q,i) in filterQues" :key="q.id">
-          <div class="name">{{i+1}}、<span v-html="q.question_name"></span></div>
+          <div class="name">{{i+1}}、<a @click="$router.push(`/question/${q.id}`)" v-html="q.question_name"></a></div>
           <div class="tags">
             <el-tag type="info" size="mini">{{q.nickname}}</el-tag>
             <el-tag size="mini">{{q.subject_name}}</el-tag>
@@ -132,6 +132,8 @@
         .rowWrapper
           border-bottom 1px solid #dcdfe6
           padding 10px 0
+          >>> p
+            margin 0
           .tags
             margin-top 15px
             .el-tag

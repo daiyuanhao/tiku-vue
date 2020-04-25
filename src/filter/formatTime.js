@@ -1,5 +1,5 @@
 export default (time)=>{
-  var date = new Date(Date(time));
+  var date = new Date(Number(time));
   var year = date.getFullYear(),
       month = ("0" + (date.getMonth() + 1)).slice(-2),
       sdate = ("0" + date.getDate()).slice(-2),

@@ -3,12 +3,15 @@
     <el-container>
       <el-main>
         <div class="topicWrapper">
-          <ul><li v-for="(t,ti) in topics" :key="ti" :class="active==t?'active':''" @click="changeTopic(ti)">{{t}}</li></ul>
+          <ul>
+            <li :class="active=='全部话题'?'active':''" @click="changeTopic(-1)">全部话题</li>
+            <li v-for="(t,ti) in topics" :key="ti" :class="active==t?'active':''" @click="changeTopic(ti)">{{t}}</li>
+          </ul>
         </div>
         <div class="articleWrapper">
           <div class="rowWrapper" v-for="a in filterArticle" :key="a.id">
             <div class="title"><img :src="'/api'+a.avatar">{{a.title}}</div>
-            <div class="meta"><a class="nickname">{{a.nickname}}</a>在<a class="topic">{{topics[a.topic+1]}}</a>发布了文章</div>
+            <div class="meta"><a class="nickname">{{a.nickname}}</a>在<a class="topic">{{topics[a.topic]}}</a>发布了文章</div>
             <div class="content" v-html="a.content"></div>
             <div class="extra">
               <span><i class="el-icon-view"></i>999</span>
@@ -43,13 +46,16 @@
     <el-drawer
       :visible.sync="drawer"
       direction="btt"
-      :before-close="handleClose"
+      :show-close="false"
+      size="50%"
     >
       <div slot="title">
-        <el-input></el-input>
-        <el-select v-model="article.topic">
-          <el-option v-for="(t,ti) in topics.slice[0]" :key="ti" :label="t" :value="ti"></el-option>
+        <el-input v-model="article.title" placeholder="此处输入标题..." class="title"></el-input>
+        <el-select v-model="article.topic" placeholder="请选择话题">
+          <el-option v-for="(t,ti) in topics" :key="ti" :label="t" :value="ti"></el-option>
         </el-select>
+        <el-button type="info" @click="drawer=false">取消</el-button>
+        <el-button type="primary" @click="addArticle">发布文章</el-button>
       </div>
       <quill-editor 
         v-model="article.content"
@@ -63,24 +69,37 @@
   export default {
     data(){
       return{
-        topics: ['全部话题','题目交流','综合讨论','问题反馈','设计建议'],
+        topics: ['题目交流','综合讨论','问题反馈','设计建议'],
         active: '全部话题',
         articleData: null,
         filterArticle: null,
         drawer: false,
         article:{
-          content: ''
+          title: '',
+          topic:'',
+          content: '',
         }
       }
     },
     methods:{
       changeTopic(ti){
-        this.active = this.topics[ti]
-        if(!ti){
+        if(ti==-1){
+          this.active="全部话题"
           this.filterArticle = this.articleData
         }else{
-          this.filterArticle = this.articleData.filter(a=>a.topic==ti-1)
+          this.active = this.topics[ti]
+          this.filterArticle = this.articleData.filter(a=>a.topic==ti)
         }
+      },
+      addArticle(){
+        let user_id = JSON.parse(localStorage.getItem('logininfo')).id
+        let create_time = new Date().getTime()
+        this.axios.post('/api/article/add',{user_id,topic:this.article.topic,title:this.article.title,content:this.article.content,create_time}).then(res=>{
+          this.$message(res.data.message)
+          if(res.data.success){
+            this.drawer = false
+          }
+        })
       }
     },
     created(){
@@ -177,4 +196,32 @@
               font-size 20px
               vertical-align top
               margin-right 10px
+  >>> .el-drawer
+    padding 20px
+    header
+      padding 10px 0
+      margin 0
+      .title
+        width 70%
+        margin-right 30px
+        .el-input__inner
+          font-size 16px
+          font-weight bold
+          color #303133
+          border-top none
+          border-left none
+          border-right none
+          padding 0
+          border-radius 0
+          // &::placeholder
+          //   font-weight bold
+          //   font-size 16px
+          &:focus
+            border-bottom 1px solid #909399
+      .el-select
+        margin-right 19px
+    section 
+      padding 10px 0
+      .quill
+        height 200px
 </style>

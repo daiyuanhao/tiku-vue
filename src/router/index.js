@@ -7,6 +7,15 @@ import MyProblem from "../views/MyProblem.vue";
 import Circle from "../views/Circle.vue";
 import Shop from "../views/Shop.vue";
 import user from "../views/pages/user.vue";
+import question from "../views/pages/question.vue";
+
+import houtai from "../views/houtai/houtai.vue";
+import users from "../views/houtai/users.vue";
+import subject from "../views/houtai/subject.vue";
+import houtai_question from "../views/houtai/question.vue";
+import shop from "../views/houtai/shop.vue";
+import addQuestion from "../views/houtai/addQuestion.vue";
+import editQuestion from "../views/houtai/editQuestion.vue";
 
 Vue.use(VueRouter)
 
@@ -45,6 +54,49 @@ const routes = [
     path: "/user/:id",
     name: "user",
     component: user,
+  },
+  {
+    path: "/question/:id",
+    name: "question",
+    component: question,
+  },
+  {
+    path: "/houtai",
+    name: "houtai",
+    redirect: "/houtai/users",
+    component: houtai,
+    children: [
+      {
+        path: "users",
+        name: "users",
+        component: users,
+      },
+      {
+        path: "subject",
+        name: "subject",
+        component: subject,
+      },
+      {
+        path: "question",
+        name: "houtai_question",
+        component: houtai_question,
+      },
+      {
+        path: "shop",
+        name: "shop",
+        component: shop,
+      },
+      {
+        path: "addQuestion",
+        name: "addQuestion",
+        component: addQuestion,
+      },
+      {
+        path: "editQuestion/:id",
+        name: "editQuestion",
+        component: editQuestion,
+      },
+    ],
   },
 ];
 

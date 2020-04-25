@@ -4,13 +4,13 @@
       <el-menu-item index="1"><router-link to="/">首页</router-link></el-menu-item>
       <el-submenu index="2">
         <template slot="title">题库</template>
-        <el-menu-item index="2-1"><router-link to="/share">分享试题</router-link></el-menu-item>
-        <el-menu-item index="2-2"><router-link to="/problem">公用题库</router-link></el-menu-item>
-        <el-menu-item index="2-3"><router-link to="/myProblem">个人题库</router-link></el-menu-item>
+        <router-link to="/share"><el-menu-item index="2-1">分享试题</el-menu-item></router-link>
+        <router-link to="/problem"><el-menu-item index="2-2">公用题库</el-menu-item></router-link>
+        <router-link to="/myProblem"><el-menu-item index="2-3">个人题库</el-menu-item></router-link>
       </el-submenu>
       <el-menu-item index="3"><router-link to="/circle">圈子</router-link></el-menu-item>
       <el-menu-item index="4"><router-link to="/shop">商城</router-link></el-menu-item>
-      <el-menu-item index="5" v-if="is_admin"><router-link to="/shop">后台管理</router-link></el-menu-item>
+      <el-menu-item index="5" v-if="is_admin"><router-link to="/houtai">后台管理</router-link></el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -30,9 +30,11 @@
     padding 0 50px
     li
       padding 0
+      font-size 16px
       a
         display block
         padding 0 20px
+      >>> .el-submenu__title
         font-size 16px
   .loginWrapper
     position absolute

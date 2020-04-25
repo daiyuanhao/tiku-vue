@@ -1,0 +1,91 @@
+<template>
+  <div class="question">
+    <el-container>
+      <el-header>题目详情</el-header>
+      <el-main v-if="question">
+        <div class="infoWrapper">
+          <div class="header">{{$store.state.types[question.type]}}<div>贡献者:<a>{{question.nickname}}</a></div></div>
+          <div class="name" v-html="question.question_name"></div>
+          <div class="select">A. {{question.a}}</div>
+          <div class="select">B. {{question.b}}</div>
+          <div class="select">C. {{question.c}}</div>
+          <div class="select">D. {{question.d}}</div>
+          <div class="answer">
+            <div><span>正确答案</span>{{question.answer}}</div>
+            <el-button type="primary" size="small">加入题库</el-button>
+          </div>
+        </div>
+        <div class="commentWrapper">
+          <Comment :question_id='question.id'></Comment>
+        </div>
+      </el-main>
+    </el-container>
+  </div>
+</template>
+
+<script>
+  import Comment from "../../components/comment";
+  export default {
+    data(){
+      return{
+        question: null
+      }
+    },
+    methods:{
+
+    },
+    components:{
+      Comment
+    },
+    created(){
+      let id = this.$route.params.id
+      this.axios.post('/api/question/getById',{id}).then(res=>{
+        this.question = res.data.rows
+      })
+    }
+  }
+</script>
+
+<style scoped lang="stylus">
+.question
+  background #ecf5ff
+  min-height calc(100vh - 61px)
+  .el-container
+    width 1000px
+    margin 0 auto
+    // padding-bottom 50px
+    .el-header
+      line-height 60px
+      font-size 24px
+    .el-main
+      padding 0 20px 20px
+      .infoWrapper
+        background #fff
+        padding 10px 20px
+        .header
+          padding 10px 0
+          font-size 20px
+          display flex
+          justify-content space-between
+          a
+            font-size 18px
+            margin-left 10px
+        .name
+          padding 10px 0
+          font-size 16px
+        .select
+          padding 10px 25px
+          color #606266
+        .answer
+          padding 10px 0
+          margin-top 10px
+          display flex
+          justify-content space-between
+          span
+            font-size 16px
+            color red
+            margin-right 15px
+      .commentWrapper
+        margin-top 20px
+        background #fff
+</style>

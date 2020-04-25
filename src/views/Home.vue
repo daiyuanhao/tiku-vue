@@ -6,7 +6,7 @@
         <div class="info">
           <div class="time">{{q.create_time | formatTime}}</div>
           <div class="meta"><a class="nickname">{{q.nickname}}</a>在<span class="subject">{{q.subject_name}}</span>{{q.is_admin?'发布':'分享'}}了一道{{$store.state.types[q.type]}}</div>
-          <div class="content"><a v-html="q.question_name"></a></div>
+          <div class="content"><a @click="$router.push(`/question/${q.id}`)" v-html="q.question_name"></a></div>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
     background #fff
     width 1000px
     margin 0 auto
-    padding 20px 20px
+    padding 0 20px 50px
     .rowWrapper
       padding 20px 0
       display flex
@@ -61,4 +61,6 @@
           margin 0 5px
       .content
         margin-top 10px
+        >>> p
+          margin 0
 </style>

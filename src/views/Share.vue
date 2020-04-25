@@ -64,7 +64,11 @@
         let id = JSON.parse(localStorage.getItem("logininfo")).id
         let create_time = new Date().getTime();
         this.axios.post('/api/question/add',Object.assign({},this.question,{id,create_time})).then(res=>{
-          this.$message(res.data.message)
+          if(res.data.success){
+            this.$message("分享试题成功")
+          }else{
+            this.$message(res.data.message)
+          }
         })
       },
       reset(){
