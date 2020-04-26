@@ -116,7 +116,10 @@
         this.avatar = logininfo.avatar
         this.is_admin = logininfo.is_admin
         this.id = logininfo.id
-        window.console.log(logininfo)
+      }else{
+        setTimeout(() => {
+          this.$router.push('/')
+        }, 2000);
       }
     }
   }

@@ -8,6 +8,8 @@ import Circle from "../views/Circle.vue";
 import Shop from "../views/Shop.vue";
 import user from "../views/pages/user.vue";
 import question from "../views/pages/question.vue";
+import article from "../views/pages/article.vue";
+import test from "../views/pages/test.vue";
 
 import houtai from "../views/houtai/houtai.vue";
 import users from "../views/houtai/users.vue";
@@ -61,6 +63,16 @@ const routes = [
     component: question,
   },
   {
+    path: "/article/:id",
+    name: "article",
+    component: article,
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: test,
+  },
+  {
     path: "/houtai",
     name: "houtai",
     redirect: "/houtai/users",
@@ -83,7 +95,7 @@ const routes = [
       },
       {
         path: "shop",
-        name: "shop",
+        name: "houtai_shop",
         component: shop,
       },
       {

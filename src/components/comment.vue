@@ -7,7 +7,9 @@
           class="quill"
         />
       </div>
-      <div class="header" v-if="commentData">{{commentData.length}}条评论<el-button type="primary" size="small" @click="addComment">发布评论</el-button></div>
+      <div class="header">
+        <span><span v-if="commentData">{{commentData.length}}</span><span v-else>0</span>条评论</span>
+        <el-button type="primary" size="small" @click="addComment">发布评论</el-button></div>
       <div class="main">
         <div class="rowWrapper" v-for="(c,ci) in commentData" :key="c.id">
           <div class="user">
@@ -46,7 +48,8 @@
     data(){
       return{
         commentValue: '',
-        commentData: null
+        commentData: null,
+        replysCount: 0
       }
     },
     components:{
@@ -56,11 +59,19 @@
       addComment(){
         let user_id = JSON.parse(localStorage.getItem('logininfo')).id
         let create_time = new Date().getTime()
-        this.axios.post('/api/comment/addComment',{user_id,question_id:this.question_id,content:this.commentValue,create_time}).then(res=>{
-          this.$message(res.data.message)
-          this.commentValue = ''
-          this.getComment()
-        })
+        if(this.question_id!==0){
+          this.axios.post('/api/comment/addComment',{user_id,question_id:this.question_id,content:this.commentValue,create_time}).then(res=>{
+            this.$message(res.data.message)
+            this.commentValue = ''
+            this.getComment()
+          })
+        }else{
+          this.axios.post('/api/comment/addComment',{user_id,article_id:this.article_id,content:this.commentValue,create_time}).then(res=>{
+            this.$message(res.data.message)
+            this.commentValue = ''
+            this.getComment()
+          })
+        }
       },
       getComment(){
         if(this.question_id!==0){
@@ -69,11 +80,16 @@
             this.commentData.forEach(c=>{
               this.$set(c,'replyShow',false)
             })
-            window.console.log(this.commentData)
           })
-          window.console.log(this.question_id)
+          window.console.log(111)
         }else{
-          window.console.log(this.question_id)
+          this.axios.post('/api/comment/getByArticleId',{id:this.article_id}).then(res=>{
+            this.commentData = res.data.rows
+            this.commentData.forEach(c=>{
+              this.$set(c,'replyShow',false)
+            })
+          })
+          window.console.log(222)
         }
       },
       showReply(index){
@@ -95,10 +111,11 @@
     .quill
       height 160px
   .header
-    font-size 18px
     display flex
     justify-content space-between
     padding 10px 0
+    span
+      font-size 18px
   .main
     padding 0 20px
     .rowWrapper

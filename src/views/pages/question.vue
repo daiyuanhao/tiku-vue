@@ -31,9 +31,6 @@
         question: null
       }
     },
-    methods:{
-
-    },
     components:{
       Comment
     },
@@ -53,7 +50,6 @@
   .el-container
     width 1000px
     margin 0 auto
-    // padding-bottom 50px
     .el-header
       line-height 60px
       font-size 24px

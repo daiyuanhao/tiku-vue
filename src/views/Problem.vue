@@ -4,7 +4,7 @@
       <el-header>
         科目分类
         <el-input placeholder="关键词搜索" v-model="searchValue" size="medium"></el-input>
-        <el-button type="primary" size="small">组卷测试</el-button>
+        <el-button type="primary" size="small" @click="testDialog=true">组卷测试</el-button>
       </el-header>
       <el-main>
         <div class="subjectWrapper">
@@ -33,6 +33,26 @@
         </div>
       </el-main>
     </el-container>
+    <el-dialog :visible.sync="testDialog" title="测试设置" width="600px">
+      <el-form label-width="80px">
+        <el-form-item label="选择科目">
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          <el-checkbox-group v-model="checkedSubject" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="s in subjectData" :label="s.id" :key="s.id">{{s.subject_name}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="时长/分钟">
+          <el-input-number v-model="time" :min="1" :max="10"></el-input-number>
+        </el-form-item>
+        <el-form-item label="题目数量">
+          <el-input-number v-model="count" :min="3" :max="10"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="testDialog = false">取 消</el-button>
+        <el-button type="primary" @click="toTest()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -42,13 +62,23 @@
       return{
         subjectData: null,
         questionData: null,
+        //搜索后的试题数据
         searchQues: null,
         searchValue: '',
+        //科目分类下的试题数据
         filterQues: null,
+        //科目的active
         active: 0,
         loginname: '',
         tagData: null,
-        selectTag: '默认'
+        selectTag: '默认',
+        //测试设置对话框
+        testDialog: false,
+        checkAll: false,
+        checkedSubject: [],
+        isIndeterminate: false,
+        count: 5,
+        time: 3,
       }
     },
     methods:{
@@ -64,6 +94,27 @@
         this.axios.post('/api/myproblem/addQuestion',{loginname:this.loginname,tag_name:this.selectTag,id}).then(res=>{
           this.$message(res.data.message)
         })
+      },
+      //测试设置里的方法
+      handleCheckAllChange(val) {
+        let idList = this.subjectData.map(item=>item.id)
+        this.checkedSubject = val ? idList : [];
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.subjectData.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.subjectData.length;
+      },
+      toTest(){
+        if(!this.checkedSubject.length){
+          this.$message("至少选择一个科目")
+        }else{
+          this.$router.push({
+            name: 'test',
+            params: {data:{idList:this.checkedSubject,count:this.count,time:this.time}}
+          }) 
+        }
       }
     },
     created(){

@@ -10,7 +10,7 @@
         </div>
         <div class="articleWrapper">
           <div class="rowWrapper" v-for="a in filterArticle" :key="a.id">
-            <div class="title"><img :src="'/api'+a.avatar">{{a.title}}</div>
+            <div class="title"><img :src="'/api'+a.avatar"><a @click="$router.push(`/article/${a.id}`)">{{a.title}}</a></div>
             <div class="meta"><a class="nickname">{{a.nickname}}</a>在<a class="topic">{{topics[a.topic]}}</a>发布了文章</div>
             <div class="content" v-html="a.content"></div>
             <div class="extra">
@@ -146,6 +146,11 @@
               width 40px
               vertical-align top
               margin-right 10px
+            a
+              color #303133
+              font-size 16px
+              &:hover
+                color: #909399
           .meta
             margin-top 5px
             .nickname
