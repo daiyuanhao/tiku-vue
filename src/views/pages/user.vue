@@ -60,7 +60,7 @@
     },
     created(){
       let id = this.$route.params.id
-      this.axios.post(`${this.baseURL}/users/getUserByI,{id}).then(res=>{
+      this.axios.post(`${this.baseURL}/users/getUserById`,{id}).then(res=>{
         this.userinfo = res.data.rows
       })
     }
