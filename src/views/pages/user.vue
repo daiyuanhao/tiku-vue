@@ -12,9 +12,9 @@
           </el-form-item>
           <el-form-item label="头像">
             <div class="avatar">
-              <img :src="'/api'+userinfo.avatar">
+              <img :src="`${baseURL}`+userinfo.avatar">
               <el-upload 
-                action="/api/users/upload"
+                :action="`${this.baseURL}/users/upload`"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
               >
@@ -47,7 +47,7 @@
       },
       saveInfo(){
         window.console.log(this.userinfo)
-        this.axios.post('/api/users/saveInfo',this.userinfo).then(res=>{
+        this.axios.post(`${this.baseURL}/users/saveInfo`,this.userinfo).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             let logininfo = JSON.parse(localStorage.getItem('logininfo'))

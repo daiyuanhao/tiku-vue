@@ -4,7 +4,7 @@
       <el-header>免费兑换礼品 <span>我的积分<span class="point">20</span></span></el-header>
       <el-main>
         <el-card :body-style="{ padding: '10px' }" v-for="g in shopData" :key="g.id">
-          <img :src="'/api'+g.img" class="image">
+          <img :src="`${baseURL}`+g.img" class="image">
           <div class="name">{{ g.name }}</div>
           <div class="bottom"><el-tag size="mini">{{g.price}}</el-tag><el-tag size="mini" class="duihuan">兑换</el-tag></div>
         </el-card>
@@ -21,7 +21,7 @@
       }
     },
     created(){
-      this.axios.get('/api/shop/get').then(res=>{
+      this.axios.get(`${this.baseURL}/shop/get`).then(res=>{
         this.shopData = res.data.rows
       })
     }

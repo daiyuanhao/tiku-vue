@@ -4,7 +4,7 @@
       <el-header>返回 /{{topics[article.topic]}}/{{article.title}}</el-header>
       <el-main>
         <div class="header">
-          <img :src="'/api'+article.avatar" alt="">
+          <img :src="`${baseURL}`+article.avatar" alt="">
           {{article.title}}
         </div>
         <div class="meta"><a>{{article.nickname}}</a>发布于 {{article.create_time | formatTime}}</div>
@@ -32,7 +32,7 @@
     },
     created(){
       let id = this.$route.params.id
-      this.axios.post('/api/article/getById',{id}).then(res=>{
+      this.axios.post(`${this.baseURL}/article/getById`,{id}).then(res=>{
         this.article = res.data.rows
       })
     }

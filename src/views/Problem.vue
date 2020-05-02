@@ -91,7 +91,7 @@
         }
       },
       addQues(id){
-        this.axios.post('/api/myproblem/addQuestion',{loginname:this.loginname,tag_name:this.selectTag,id}).then(res=>{
+        this.axios.post(`${this.baseURL}/myproblem/addQuestion`,{loginname:this.loginname,tag_name:this.selectTag,id}).then(res=>{
           this.$message(res.data.message)
         })
       },
@@ -118,16 +118,16 @@
       }
     },
     created(){
-      this.axios.get('/api/subject/get').then(res=>{
+      this.axios.get(`${this.baseURL}/subject/get`).then(res=>{
         this.subjectData = res.data.rows
       })
-      this.axios.get('/api/question/get').then(res=>{
+      this.axios.get(`${this.baseURL}/question/get`).then(res=>{
         this.questionData = res.data.rows.filter(q=>q.is_admin==1)
         this.searchQues = this.questionData;
         this.changeSubject(this.active);
       })
       this.loginname = JSON.parse(localStorage.getItem('logininfo')).loginname
-      this.axios.post('/api/myproblem/getTags',{loginname: this.loginname}).then(res=>{
+      this.axios.post(`${this.baseURL}/myproblem/getTags`,{loginname: this.loginname}).then(res=>{
         this.tagData = res.data.rows
       })
     },

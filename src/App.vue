@@ -8,7 +8,7 @@
         <a @click="signVisible=true;active='登录'">登录</a>
       </div>
       <div class="logined" v-else>
-        <router-link :to="'/user/'+id"><el-avatar :src="'/api'+avatar" alt=""></el-avatar></router-link>
+        <router-link :to="'/user/'+id"><el-avatar :src="`${baseURL}`+avatar" alt=""></el-avatar></router-link>
         <el-divider direction="vertical"></el-divider>
         <a @click="signOut">登出</a>
       </div>
@@ -71,7 +71,7 @@
     methods:{
       handleSign(){
         if(this.active=="注册"){
-          this.axios.post('/api/register',this.register).then(res=>{
+          this.axios.post(`${this.baseURL}/register`,this.register).then(res=>{
             this.$message(res.data.message)
             if(res.data.success){
               this.login.loginname = this.register.loginname
@@ -85,7 +85,7 @@
             }
           })
         }else{
-          this.axios.post('/api/login',this.login).then(res=>{
+          this.axios.post(`${this.baseURL}/login`,this.login).then(res=>{
             this.$message(res.data.message)
             this.login.password = ""
             if(res.data.success){

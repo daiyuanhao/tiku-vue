@@ -63,7 +63,7 @@
       addQuestion(){
         let id = JSON.parse(localStorage.getItem("logininfo")).id
         let create_time = new Date().getTime();
-        this.axios.post('/api/question/add',Object.assign({},this.question,{id,create_time})).then(res=>{
+        this.axios.post(`${this.baseURL}/question/add`,Object.assign({},this.question,{id,create_time})).then(res=>{
           if(res.data.success){
             this.$message("分享试题成功")
           }else{
@@ -76,7 +76,7 @@
       }
     },
     created(){
-      this.axios.get('/api/subject/get').then(res=>{
+      this.axios.get(`${this.baseURL}/subject/get`).then(res=>{
         this.subjectData = res.data.rows
       })
     }

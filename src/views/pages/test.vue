@@ -113,7 +113,7 @@
         this.$router.push('/problem')
         return false
       }else{
-        this.axios.post('/api/question/getBySomeId',{idList:this.testData.idList}).then(res=>{
+        this.axios.post(`${this.baseURL}/question/getBySomeId`,{idList:this.testData.idList}).then(res=>{
           this.questionData = res.data.rows
           //拷贝一份试题
           let ques = [...this.questionData]

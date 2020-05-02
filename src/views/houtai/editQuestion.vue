@@ -51,7 +51,7 @@
     },
     methods:{
       editQuestion(){
-        this.axios.post('/api/question/update',this.question).then(res=>{
+        this.axios.post(`${this.baseURL}/question/update`,this.question).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             setTimeout(() => {
@@ -62,11 +62,11 @@
       }
     },
     created(){
-      this.axios.get('/api/subject/get').then(res=>{
+      this.axios.get(`${this.baseURL}/subject/get`).then(res=>{
         this.subjectData = res.data.rows
       })
       let id = this.$route.params.id;
-      this.axios.post('/api/question/getById',{id}).then(res=>{
+      this.axios.post(`${this.baseURL}/question/getById`,{id}).then(res=>{
         this.question = res.data.rows
       })
     }

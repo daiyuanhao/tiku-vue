@@ -19,6 +19,9 @@ Vue.prototype.axios = axios;
 Vue.filter('formatTime',formatTime)
 Vue.use(VueQuillEditor);
 
+Vue.prototype.baseURL =
+  process.env.NODE_ENV === "production" ?"http://49.235.238.144:3000": "/api" ;
+
 new Vue({
   router,
   store,

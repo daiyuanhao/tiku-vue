@@ -10,7 +10,7 @@
         </div>
         <div class="articleWrapper">
           <div class="rowWrapper" v-for="a in filterArticle" :key="a.id">
-            <div class="title"><img :src="'/api'+a.avatar"><a @click="$router.push(`/article/${a.id}`)">{{a.title}}</a></div>
+            <div class="title"><img :src="`${baseURL}`+a.avatar"><a @click="$router.push(`/article/${a.id}`)">{{a.title}}</a></div>
             <div class="meta"><a class="nickname">{{a.nickname}}</a>在<a class="topic">{{topics[a.topic]}}</a>发布了文章</div>
             <div class="content" v-html="a.content"></div>
             <div class="extra">
@@ -94,7 +94,7 @@
       addArticle(){
         let user_id = JSON.parse(localStorage.getItem('logininfo')).id
         let create_time = new Date().getTime()
-        this.axios.post('/api/article/add',{user_id,topic:this.article.topic,title:this.article.title,content:this.article.content,create_time}).then(res=>{
+        this.axios.post(`${this.baseURL}/article/add`,{user_id,topic:this.article.topic,title:this.article.title,content:this.article.content,create_time}).then(res=>{
           this.$message(res.data.message)
           if(res.data.success){
             this.drawer = false
@@ -103,7 +103,7 @@
       }
     },
     created(){
-      this.axios.get('/api/article/get').then(res=>{
+      this.axios.get(`${this.baseURL}/article/get`).then(res=>{
         this.articleData = res.data.rows
         this.filterArticle = this.articleData
       })

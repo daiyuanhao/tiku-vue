@@ -5,7 +5,7 @@
       <el-table-column label="商品名称" prop="name"></el-table-column>
       <el-table-column label="图片">
         <template slot-scope="scope">
-          <img :src="'/api'+scope.row.img" alt="" :style="{'width':'40px'}">
+          <img :src="`${baseURL}`+scope.row.img" alt="" :style="{'width':'40px'}">
         </template>
       </el-table-column>
       <el-table-column label="价格" prop="price"></el-table-column>
@@ -23,9 +23,9 @@
           <el-input v-model="add.name"></el-input>
         </el-form-item>
         <el-form-item label="图片" label-width="80px">
-          <img v-if="add.img" :src="'/api'+add.img" :style="{'width':'40px'}">
+          <img v-if="add.img" :src="`${baseURL}`+add.img" :style="{'width':'40px'}">
           <el-upload 
-            action="/api/shop/upload"
+            :action="`${baseURL}`+'/shop/upload'"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
           >
@@ -47,9 +47,9 @@
           <el-input v-model="edit.name"></el-input>
         </el-form-item>
         <el-form-item label="图片" label-width="80px">
-          <img v-if="edit.img" :src="'/api'+edit.img" :style="{'width':'40px'}">
+          <img v-if="edit.img" :src="`${baseURL}`+edit.img" :style="{'width':'40px'}">
           <el-upload 
-            action="/api/shop/upload"
+            :action="`${baseURL}`+'/shop/upload'"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
           >
@@ -90,10 +90,10 @@
     },
     methods:{
       getGoods(){
-        this.axios.get('/api/shop/get').then(res=>this.shopData=res.data.rows)
+        this.axios.get(`${this.baseURL}/shop/get`).then(res=>this.shopData=res.data.rows)
       },
       delGoods(id){
-        this.axios.post('/api/shop/delete',{id}).then(res=>{
+        this.axios.post(`${this.baseURL}/shop/delete`,{id}).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             this.getGoods()
@@ -101,7 +101,7 @@
         })
       },
       addGoods(){
-        this.axios.post('/api/shop/add',this.add).then(res=>{
+        this.axios.post(`${this.baseURL}/shop/add`,this.add).then(res=>{
           this.$message(res.data.message)
           if(res.data.success){
             this.dialogAdd = false
@@ -117,7 +117,7 @@
         this.edit.price=row.price
       },
       editGoods(){
-        this.axios.post('/api/shop/edit',this.edit).then(res=>{
+        this.axios.post(`${this.baseURL}/shop/edit`,this.edit).then(res=>{
           this.$message(res.data.message)
           if(res.data.success){
             this.dialogEdit = false

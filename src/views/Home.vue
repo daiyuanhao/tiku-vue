@@ -2,7 +2,7 @@
   <div class="home">
     <div class="main">
       <div class="rowWrapper" v-for="(q,i) in questionData" :key="i">
-        <div class="avatar"><img :src="'/api'+q.avatar" ></div>
+        <div class="avatar"><img :src="`${baseURL}`+q.avatar" ></div>
         <div class="info">
           <div class="time">{{q.create_time | formatTime}}</div>
           <div class="meta"><a class="nickname">{{q.nickname}}</a>在<span class="subject">{{q.subject_name}}</span>{{q.is_admin?'发布':'分享'}}了一道{{$store.state.types[q.type]}}</div>
@@ -21,7 +21,7 @@
       }
     },
     created(){
-      this.axios.get('/api/question/getByTime').then(res=>{
+      this.axios.get(`${this.baseURL}/question/getByTime`).then(res=>{
         this.questionData = res.data.rows.slice(0,10)
       })
     }

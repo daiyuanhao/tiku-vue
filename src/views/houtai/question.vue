@@ -40,10 +40,10 @@
     },
     methods:{
       getQuestion(){
-        this.axios.get('/api/question/get').then(res=>this.questionData=res.data.rows)
+        this.axios.get(`${this.baseURL}/question/get`).then(res=>this.questionData=res.data.rows)
       },
       delQuestion(id){
-        this.axios.post('/api/question/delete',{id}).then(res=>{
+        this.axios.post(`${this.baseURL}/question/delete`,{id}).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             this.getQuestion()

@@ -12,7 +12,7 @@
       <el-table-column label="昵称" prop="nickname"></el-table-column>
       <el-table-column label="头像">
         <template slot-scope="scope">
-          <img :src="'/api'+scope.row.avatar" alt="" :style="{'width':'40px'}">
+          <img :src="`${baseURL}`+scope.row.avatar" alt="" :style="{'width':'40px'}">
         </template>
       </el-table-column>
       <el-table-column label="积分" prop="point"></el-table-column>
@@ -39,10 +39,10 @@
     },
     methods:{
       getUsers(){
-        this.axios.get('/api/users/get').then(res=>this.usersData=res.data.rows)
+        this.axios.get(`${this.baseURL}/users/get`).then(res=>this.usersData=res.data.rows)
       },
       delUser(id){
-        this.axios.post('/api/users/delete',{id}).then(res=>{
+        this.axios.post(`${this.baseURL}/users/delete`,{id}).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             this.getUsers()

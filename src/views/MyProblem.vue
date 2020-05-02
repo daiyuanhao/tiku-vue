@@ -56,7 +56,7 @@
     },
     methods: {
       handleClose(tag) {
-        this.axios.post('/api/myproblem/delTag',{loginname:this.loginname,tag_name:tag}).then(res=>{
+        this.axios.post(`${this.baseURL}/myproblem/delTag`,{loginname:this.loginname,tag_name:tag}).then(res=>{
           if(res.data.success){
             this.getTags()
             this.$message(res.data.message)
@@ -72,7 +72,7 @@
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
-          this.axios.post('/api/myproblem/addTag',{loginname:this.loginname,tag_name:inputValue}).then(res=>{
+          this.axios.post(`${this.baseURL}/myproblem/addTag`,{loginname:this.loginname,tag_name:inputValue}).then(res=>{
             if(res.data.success){
               this.$message(res.data.message)
               this.getTags()
@@ -83,12 +83,12 @@
         this.inputValue = '';
       },
       getTags(){
-        this.axios.post('/api/myproblem/getTags',{loginname: this.loginname}).then(res=>{
+        this.axios.post(`${this.baseURL}/myproblem/getTags`,{loginname: this.loginname}).then(res=>{
           this.tagData = res.data.rows
         })
       },
       getQues(){
-        this.axios.post('/api/myproblem/getQuestions',{loginname: this.loginname}).then(res=>{
+        this.axios.post(`${this.baseURL}/myproblem/getQuestions`,{loginname: this.loginname}).then(res=>{
           this.questionData = res.data.rows
           window.console.log(this.questionData)
           this.filterQues = this.questionData.filter(q=>q.tag_name===this.active)
@@ -99,7 +99,7 @@
         this.filterQues = this.questionData.filter(q=>q.tag_name===tag)
       },
       delQues(question_id){
-        this.axios.post('/api/myproblem/delQuestion',{loginname:this.loginname,tag_name:this.active,question_id}).then(res=>{
+        this.axios.post(`${this.baseURL}/myproblem/delQuestion`,{loginname:this.loginname,tag_name:this.active,question_id}).then(res=>{
           this.$message(res.data.message)
           this.getQues()
         })

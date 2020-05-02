@@ -54,10 +54,10 @@
     },
     methods:{
       getSubject(){
-        this.axios.get('/api/subject/get').then(res=>this.subjectData=res.data.rows)
+        this.axios.get(`${this.baseURL}/subject/get`).then(res=>this.subjectData=res.data.rows)
       },
       delSubject(id){
-        this.axios.post('/api/subject/delete',{id}).then(res=>{
+        this.axios.post(`${this.baseURL}/subject/delete`,{id}).then(res=>{
           if(res.data.success){
             this.$message(res.data.message)
             this.getSubject()
@@ -65,7 +65,7 @@
         })
       },
       addSubject(){
-        this.axios.post('/api/subject/add',{name:this.add.name}).then(res=>{
+        this.axios.post(`${this.baseURL}/subject/add`,{name:this.add.name}).then(res=>{
           this.$message(res.data.message)
           if(res.data.success){
             this.dialogAdd = false
@@ -79,7 +79,7 @@
         this.edit.name=row.subject_name
       },
       editSubject(){
-        this.axios.post('/api/subject/edit',this.edit).then(res=>{
+        this.axios.post(`${this.baseURL}/subject/edit`,this.edit).then(res=>{
           this.$message(res.data.message)
           if(res.data.success){
             this.dialogEdit = false

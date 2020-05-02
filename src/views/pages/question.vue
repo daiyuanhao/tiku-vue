@@ -36,7 +36,7 @@
     },
     created(){
       let id = this.$route.params.id
-      this.axios.post('/api/question/getById',{id}).then(res=>{
+      this.axios.post(`${this.baseURL}/question/getById`,{id}).then(res=>{
         this.question = res.data.rows
       })
     }
