@@ -12,7 +12,16 @@
           <div class="select">D. {{question.d}}</div>
           <div class="answer">
             <div><span>正确答案</span>{{question.answer}}</div>
-            <el-button type="primary" size="small">加入题库</el-button>
+            <el-popover
+              placement="left"
+              width="190"
+              trigger="click">
+              <el-select v-model="selectTag" placeholder="请选择标签" size="small" :style="{'width':'120px','margin-right':'10px'}">
+                <el-option v-for="(t,ti) in tagData" :key="ti" :label="t.tag_name" :value="t.tag_name"></el-option>
+              </el-select>
+              <el-button type="primary" size="small" @click="addQues(question.id)">确定</el-button>
+              <el-button type="primary" size="small" slot="reference">加入题库</el-button>
+            </el-popover>
           </div>
         </div>
         <div class="commentWrapper">
@@ -28,16 +37,30 @@
   export default {
     data(){
       return{
-        question: null
+        question: null,
+        selectTag: '默认',
+        loginname: '',
+        tagData: null
       }
     },
     components:{
       Comment
     },
+    methods:{
+      addQues(id){
+        this.axios.post(`${this.baseURL}/myproblem/addQuestion`,{loginname:this.loginname,tag_name:this.selectTag,id}).then(res=>{
+          this.$message(res.data.message)
+        })
+      }
+    },
     created(){
       let id = this.$route.params.id
       this.axios.post(`${this.baseURL}/question/getById`,{id}).then(res=>{
         this.question = res.data.rows
+      })
+      this.loginname = JSON.parse(localStorage.getItem('logininfo')).loginname
+      this.axios.post(`${this.baseURL}/myproblem/getTags`,{loginname: this.loginname}).then(res=>{
+        this.tagData = res.data.rows
       })
     }
   }
